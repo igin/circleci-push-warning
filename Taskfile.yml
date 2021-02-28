@@ -1,0 +1,13 @@
+version: "3"
+
+dotenv: [".env"]
+
+tasks:
+  verify:
+    desc: "Verify the state of the project specified as argument"
+    cmds:
+      - ./verify_circle_ci_status.py "dontcare" "{{.GIT_URL}}"
+  test:
+    desc: "Run the tests"
+    cmds:
+      - pytest -p no:cacheprovider
