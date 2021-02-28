@@ -4,7 +4,7 @@ Use the .devcontainer configuration to develop in vscode. To run the tests  insi
 
 ```
 task test
-``
+```
 
 To run the pre-push hook against a defined project create a `.env` file and add at least the following two variables:
 
