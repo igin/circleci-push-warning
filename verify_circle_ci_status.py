@@ -2,7 +2,7 @@
 
 import sys
 from dataclasses import dataclass
-from typing import Dict, Literal
+from typing import Dict, Iterator, List, Literal, Optional
 import http.client as http_client
 import json
 import os
@@ -61,7 +61,9 @@ def parse_project_from_url(*, origin_url: str) -> CircleCIProject:
 @dataclass
 class ProjectState:
     build_in_progress: bool
-    last_finished_build_state: Literal['success', 'error', 'canceled']
+    last_finished_build_state: Literal[
+        "success", "running", "not_run", "failed",
+        "error", "failing", "on_hold", "canceled", "unauthorized"]
 
     def print(self):
         print("Project State:")
@@ -73,18 +75,51 @@ class ProjectState:
 
 
 def get_project_state(*, project: CircleCIProject) -> ProjectState:
+    project_workflows = get_project_workflows(project=project)
+    running_workflow = None
+    last_finished_workflow = None
+    for workflow in project_workflows:
+        if workflow.state == 'running' or workflow.state == 'failing':
+            running_workflow = workflow
+        elif workflow.state != 'canceled':
+            last_finished_workflow = workflow
+            break
+
+    project_state = last_finished_workflow.state if last_finished_workflow \
+        else 'error'
+
+    return ProjectState(
+        build_in_progress=running_workflow is not None,
+        last_finished_build_state=project_state)
+
+
+@dataclass
+class WorkflowState:
+    state: Literal["success", "running", "not_run", "failed",
+                   "error", "failing", "on_hold", "canceled", "unauthorized"]
+
+
+def get_project_workflows(*, project: CircleCIProject) -> Iterator[
+        WorkflowState]:
     pipelines = api_get_request(
         endpoint=f"/api/v2/project/gh/{project.owner}/"
         f"{project.repo_name}/pipeline")
-    workflows = api_get_request(
-        endpoint=f"/api/v2/pipeline/{pipelines['items'][0]['id']}/workflow")
 
-    last_workflow = workflows['items'][0]
-    last_build_status = last_workflow['status']
-    return ProjectState(
-        build_in_progress=False,
-        last_finished_build_state=last_build_status
-    )
+    for pipeline in pipelines['items']:
+        pipeline_workflows = get_pipeline_workflows(pipeline=pipeline)
+        for workflow in pipeline_workflows:
+            yield workflow
+
+
+def get_pipeline_workflows(*, pipeline) -> List[WorkflowState]:
+    pipeline_id = pipeline['id']
+    workflows = api_get_request(
+        endpoint=f"/api/v2/pipeline/{pipeline_id}/workflow")
+    workflow_states = [
+        WorkflowState(state=workflow['status'])
+        for workflow in workflows['items']
+    ]
+    return workflow_states
 
 
 CIRCLECI_HOST = "circleci.com"
