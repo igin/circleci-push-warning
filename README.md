@@ -6,7 +6,7 @@
 In a trunk based development environment without branches you want to make sure that you don't push
 on a breaking build. This avoids having to dig for the breaking changes back through history. Keeping
 on top of the current build status can be difficult. Thats why this project automates that and gives
-you a warning before you push on a breaking build or a build that is in progress. Thats all.gst
+you a warning before you push on a breaking build or a build that is in progress. Thats all.
 
 ## Usage
 
