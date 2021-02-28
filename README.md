@@ -1,6 +1,7 @@
 <img src="./logo.png" height="100px" alt="Push Warning Logo" />
 
 ## CircleCI Push Warning
+![tests](https://github.com/igin/circleci-push-warning/actions/workflows/main.yml/badge.svg)
 
 In a trunk based development environment without branches you want to make sure that you don't push
 on a breaking build. This avoids having to dig for the breaking changes back through history. Keeping
