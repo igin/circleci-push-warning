@@ -8,5 +8,5 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Run tests
-        uses: ./ # Uses an action in the root directory
+        uses: ./
         id: tests
