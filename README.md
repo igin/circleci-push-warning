@@ -7,6 +7,14 @@ curl -fsSL https://raw.githubusercontent.com/igin/circleci-push-warning/main/ver
 chmod +x .git/hooks/pre-push
 ```
 
+To access your circle ci projects this script needs a personal access token. Generate one in the 
+circle ci settings and add it as an environment variable on your system. For example put it in your
+`~/.zshrc` as:
+
+```
+export PRE_PUSH_CIRCLE_CI_TOKEN=%your_token_here%
+```
+
 ## Development
 
 Use the .devcontainer configuration to develop in vscode. To run the tests  inside the container run:
