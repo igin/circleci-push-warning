@@ -1,3 +1,5 @@
+![Push Warning Logo](./logo.png)
+
 ## Usage
 
 To install this hook download the main script, move it to .git/hooks/pre-push and make it executable:
