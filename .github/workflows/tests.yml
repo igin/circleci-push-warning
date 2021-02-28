@@ -1,0 +1,8 @@
+on: [push]
+
+jobs:
+  tests:
+    runs:
+      using: 'docker'
+      image: '../.devcontainer/Dockerfile'
+    name: Unit & Integration Tests
