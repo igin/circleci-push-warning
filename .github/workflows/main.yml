@@ -3,7 +3,7 @@ on: [push]
 jobs:
   test_job:
     runs-on: ubuntu-latest
-    name: A job to run the tests
+    name: Tests
     steps:
       - name: Checkout
         uses: actions/checkout@v2
