@@ -1,4 +1,4 @@
-![Push Warning Logo](./logo.png)
+<img src="./logo.png" height="100px" alt="Push Warning Logo" />
 
 ## Usage
 
