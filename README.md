@@ -29,3 +29,9 @@ To run the pre-push hook against a defined project create a `.env` file and add 
 PRE_PUSH_CIRCLE_CI_TOKEN=%YOUR_PERSONAL_CIRCLE_CI_TOKEN%
 GIT_URL=%GIT_URL_OF_YOUR_CIRCLE_CI_BASED_PROJECT%
 ```
+
+You can now run the following command to test the hook against your specified project:
+
+```
+task verify
+```
